@@ -1,0 +1,15 @@
+-- Insert sample products (only if table is empty)
+INSERT INTO products (title, description, price, original_price, image, category, condition, location, seller_name, rating, special_offer_48h, service_type)
+SELECT * FROM (VALUES
+  ('Clases de Guitarra Particulares', 'Clases personalizadas de guitarra para todos los niveles. Profesor con 15 años de experiencia', 8000, NULL, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 'servicios', 'servicio', 'Palermo, CABA', 'MusicProf', 4.9, FALSE, 'educacion'),
+  ('Reparación de Electrodomésticos', 'Servicio técnico especializado en reparación de heladeras, lavarropas y aires acondicionados', 3500, NULL, 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400', 'servicios', 'servicio', 'Villa Urquiza, CABA', 'TecnicoExpress', 4.7, FALSE, 'reparaciones'),
+  ('iPhone 14 Pro Max 256GB', 'iPhone 14 Pro Max en excelente estado', 850000, 950000, 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80', 'electronica', 'usado', 'CABA, Buenos Aires', 'TechStore_BA', 4.8, TRUE, NULL),
+  ('Laptop Gaming ASUS ROG', 'Laptop gaming de alta gama, perfecta para juegos y trabajo profesional', 2850000, NULL, 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400', 'electronica', 'nuevo', 'Medellín', 'GamerZone', 4.9, TRUE, NULL),
+  ('Camiseta Nike Dri-FIT', 'Camiseta deportiva Nike original, talla M, nueva con etiquetas', 89000, NULL, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', 'ropa', 'nuevo', 'Cali', 'SportStyle', 4.7, TRUE, NULL),
+  ('Sofá 3 Puestos Moderno', 'Sofá cómodo y elegante, perfecto para sala de estar', 1200000, 1500000, 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400', 'hogar', 'usado', 'Barranquilla', 'MueblesCasa', 4.6, FALSE, NULL),
+  ('Bicicleta MTB Trek', 'Bicicleta de montaña Trek en excelente estado, ideal para aventuras', 980000, NULL, 'https://images.unsplash.com/photo-1544191696-15693072b5a4?w=400', 'deportes', 'usado', 'Bucaramanga', 'BikeShop', 4.8, TRUE, NULL),
+  ('Libro Cien Años de Soledad', 'Edición especial del clásico de García Márquez, tapa dura', 45000, NULL, 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400', 'libros', 'nuevo', 'Cartagena', 'LibreriaLiteraria', 4.9, FALSE, NULL),
+  ('Toyota Corolla 2020', 'Vehículo en excelente estado, único dueño, papeles al día', 65000000, NULL, 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400', 'vehiculos', 'usado', 'Bogotá', 'AutoUsados Premium', 4.7, FALSE, NULL),
+  ('LEGO Creator Expert', 'Set de LEGO Creator Expert, nuevo y sellado, ideal para coleccionistas', 320000, NULL, 'https://images.unsplash.com/photo-1558877385-1c3e9e6b38b8?w=400', 'juguetes', 'nuevo', 'Pereira', 'JuguetesYMas', 4.8, TRUE, NULL)
+) AS v(title, description, price, original_price, image, category, condition, location, seller_name, rating, special_offer_48h, service_type)
+WHERE NOT EXISTS (SELECT 1 FROM products LIMIT 1);
