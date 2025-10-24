@@ -47,9 +47,9 @@ export default function HomePage({ initialProducts }: HomePageProps) {
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
-      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sellerName.toLowerCase().includes(searchQuery.toLowerCase())
+      (product.sellerName && product.sellerName.toLowerCase().includes(searchQuery.toLowerCase()))
     const matchesCategory = selectedCategory === "todos" || product.category === selectedCategory
     return matchesSearch && matchesCategory
   })

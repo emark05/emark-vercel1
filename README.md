@@ -21,10 +21,17 @@ Ejecuta los scripts SQL en tu panel de Supabase (SQL Editor):
 
 ### 3. Variables de entorno
 
-Las variables de entorno ya están configuradas en `.env.local`:
+Crea un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+\`\`\`env
+NEXT_PUBLIC_SUPABASE_URL=https://bhumjttmayejuvqjowgg.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_aqui
+\`\`\`
+
+**Para Vercel:** Agrega estas mismas variables en el dashboard de Vercel:
+- Ve a tu proyecto en Vercel
+- Settings → Environment Variables
+- Agrega ambas variables (NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 ### 4. Ejecutar en desarrollo
 

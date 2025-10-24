@@ -2,42 +2,60 @@ export interface User {
   id: string
   email: string
   name: string
+  role?: string
   isAdmin?: boolean
   documentsVerified?: boolean
-  createdAt?: string
+  created_at?: string
 }
 
 export interface Product {
   id: string
-  title: string
+  name: string
   description?: string
   price: number
   originalPrice?: number
   image?: string
   category: string
-  condition: string
+  condition?: string
   location?: string
-  sellerId?: string
-  sellerName: string
+  seller_id?: string
+  sellerName?: string
   rating?: number
   featured?: boolean
   specialOffer48h?: boolean
   stock?: number
   serviceType?: string
-  createdAt?: string
+  created_at?: string
 }
 
 export interface CartItem {
   id: string
-  userId: string
-  productId: string
+  user_id: string
+  product_id: string
   quantity: number
   product?: Product
 }
 
 export interface Favorite {
   id: string
-  userId: string
-  productId: string
+  user_id: string
+  product_id: string
   product?: Product
+}
+
+export interface Order {
+  id: string
+  user_id: string
+  total: number
+  status: string
+  created_at: string
+}
+
+export interface Message {
+  id: string
+  sender_id: string
+  receiver_id: string
+  content: string
+  read: boolean
+  created_at: string
 }
