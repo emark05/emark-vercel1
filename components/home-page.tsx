@@ -21,7 +21,7 @@ export default function HomePage({ initialProducts }: HomePageProps) {
   const [currentPage, setCurrentPage] = useState("home")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("todos")
-  const [products, setProducts] = useState<Product[]>(initialProducts)
+  const [products, setProducts] = useState<Product[]>(initialProducts || [])
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [user, setUser] = useState<User | null>(null)
@@ -30,27 +30,36 @@ export default function HomePage({ initialProducts }: HomePageProps) {
   const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
-    // Load user from localStorage
-    const savedUser = localStorage.getItem("emark_user")
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-    }
+    try {
+      // Load user from localStorage
+      const savedUser = localStorage.getItem("emark_user")
+      if (savedUser) {
+        setUser(JSON.parse(savedUser))
+      }
 
-    // Load dark mode preference
-    const savedDarkMode = localStorage.getItem("emark_darkmode")
-    if (savedDarkMode) {
-      const isDark = JSON.parse(savedDarkMode)
-      setDarkMode(isDark)
-      document.documentElement.classList.toggle("dark", isDark)
+      // Load dark mode preference
+      const savedDarkMode = localStorage.getItem("emark_darkmode")
+      if (savedDarkMode) {
+        const isDark = JSON.parse(savedDarkMode)
+        setDarkMode(isDark)
+        document.documentElement.classList.toggle("dark", isDark)
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error)
     }
   }, [])
 
   const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description?.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategory === "todos" || product.category === selectedCategory
-    return matchesSearch && matchesCategory
+    try {
+      const matchesSearch =
+        product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesCategory = selectedCategory === "todos" || product.category === selectedCategory
+      return matchesSearch && matchesCategory
+    } catch (error) {
+      console.error("Error filtering product:", error)
+      return false
+    }
   })
 
   const toggleDarkMode = () => {
