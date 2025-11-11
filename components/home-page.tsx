@@ -12,6 +12,7 @@ import LoginModal from "./login-modal"
 import ProductDetail from "./product-detail"
 import Cart from "./cart"
 import UserDashboard from "./user-dashboard"
+import Checkout from "./checkout"
 
 interface HomePageProps {
   initialProducts: Product[]
@@ -31,13 +32,11 @@ export default function HomePage({ initialProducts }: HomePageProps) {
 
   useEffect(() => {
     try {
-      // Load user from localStorage
       const savedUser = localStorage.getItem("emark_user")
       if (savedUser) {
         setUser(JSON.parse(savedUser))
       }
 
-      // Load dark mode preference
       const savedDarkMode = localStorage.getItem("emark_darkmode")
       if (savedDarkMode) {
         const isDark = JSON.parse(savedDarkMode)
@@ -89,7 +88,27 @@ export default function HomePage({ initialProducts }: HomePageProps) {
           />
         ) : null
       case "cart":
-        return <Cart items={cart} onBack={() => setCurrentPage("home")} onRemoveItem={removeFromCart} />
+        return (
+          <Cart
+            items={cart}
+            onBack={() => setCurrentPage("home")}
+            onRemoveItem={removeFromCart}
+            onCheckout={() => setCurrentPage("checkout")}
+          />
+        )
+      case "checkout":
+        return cart.length > 0 ? (
+          <Checkout
+            cartItems={cart}
+            user={user}
+            onBack={() => setCurrentPage("cart")}
+            onCompleteOrder={(orderData) => {
+              console.log("Order completed:", orderData)
+              setCart([])
+              setCurrentPage("home")
+            }}
+          />
+        ) : null
       case "dashboard":
         return user ? <UserDashboard user={user} onBack={() => setCurrentPage("home")} /> : null
       default:

@@ -8,9 +8,10 @@ interface CartProps {
   items: Product[]
   onBack: () => void
   onRemoveItem: (productId: string) => void
+  onCheckout?: () => void
 }
 
-export default function Cart({ items, onBack, onRemoveItem }: CartProps) {
+export default function Cart({ items, onBack, onRemoveItem, onCheckout }: CartProps) {
   const total = items.reduce((sum, item) => sum + item.price, 0)
 
   return (
@@ -38,13 +39,13 @@ export default function Cart({ items, onBack, onRemoveItem }: CartProps) {
                   <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
                       src={item.image || "/placeholder.svg?height=100&width=100"}
-                      alt={item.title}
+                      alt={item.name}
                       fill
                       className="object-cover"
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{item.name}</h3>
                     <p className="text-[#feb415] font-bold">${item.price.toLocaleString()}</p>
                   </div>
                   <button onClick={() => onRemoveItem(item.id)} className="text-red-500 hover:text-red-700 p-2">
@@ -64,7 +65,7 @@ export default function Cart({ items, onBack, onRemoveItem }: CartProps) {
                   </div>
                   <div className="flex justify-between text-gray-600 dark:text-gray-400">
                     <span>Envío</span>
-                    <span>Gratis</span>
+                    <span>Calculado en pago</span>
                   </div>
                   <div className="border-t dark:border-gray-700 pt-3">
                     <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white">
@@ -73,7 +74,10 @@ export default function Cart({ items, onBack, onRemoveItem }: CartProps) {
                     </div>
                   </div>
                 </div>
-                <button className="w-full bg-[#feb415] hover:bg-[#e5a313] text-white font-semibold py-3 rounded-lg transition-colors">
+                <button
+                  onClick={onCheckout}
+                  className="w-full bg-[#feb415] hover:bg-[#e5a313] text-white font-semibold py-3 rounded-lg transition-colors"
+                >
                   Proceder al Pago
                 </button>
               </div>

@@ -48,7 +48,48 @@ export interface Order {
   user_id: string
   total: number
   status: string
+  paymentMethod: PaymentMethod
+  shippingMethod?: ShippingMethod
+  shippingAddress?: Address
+  items: OrderItem[]
   created_at: string
+}
+
+export interface OrderItem {
+  id: string
+  product_id: string
+  product?: Product
+  quantity: number
+  price: number
+}
+
+export type PaymentMethod = "credit_card" | "bank_transfer" | "pagofacil" | "stripe"
+
+export interface PaymentDetails {
+  method: PaymentMethod
+  status: "pending" | "completed" | "failed"
+  transactionId?: string
+  reference?: string
+  created_at: string
+}
+
+export type ShippingMethod = "correo_argentino" | "andreani" | "oca" | "pickit"
+
+export interface ShippingDetails {
+  method: ShippingMethod
+  cost: number
+  estimatedDays: number
+  trackingNumber?: string
+}
+
+export interface Address {
+  street: string
+  city: string
+  province: string
+  zipCode: string
+  country: string
+  phone: string
+  notes?: string
 }
 
 export interface Message {

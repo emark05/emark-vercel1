@@ -1,7 +1,10 @@
 "use client"
 
-import type { User } from "@/types"
+import { useState, useEffect } from "react"
+import type { User, Order } from "@/types"
 import { ArrowLeft, Package, Heart, MessageSquare, Settings } from "lucide-react"
+import OrderHistory from "./order-history"
+import { getOrdersByUser } from "@/lib/orders/order-manager"
 
 interface UserDashboardProps {
   user: User
@@ -9,6 +12,18 @@ interface UserDashboardProps {
 }
 
 export default function UserDashboard({ user, onBack }: UserDashboardProps) {
+  const [currentView, setCurrentView] = useState<"main" | "orders">("main")
+  const [userOrders, setUserOrders] = useState<Order[]>([])
+
+  useEffect(() => {
+    const orders = getOrdersByUser(user.id)
+    setUserOrders(orders)
+  }, [user.id])
+
+  if (currentView === "orders") {
+    return <OrderHistory orders={userOrders} onBack={() => setCurrentView("main")} />
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="container mx-auto px-4">
@@ -26,11 +41,19 @@ export default function UserDashboard({ user, onBack }: UserDashboardProps) {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
+          <button
+            onClick={() => setCurrentView("orders")}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer text-left"
+          >
             <Package className="text-[#feb415] mb-4" size={32} />
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Mis Productos</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Gestiona tus publicaciones</p>
-          </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Mis Órdenes</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Ver historial de compras</p>
+            {userOrders.length > 0 && (
+              <p className="text-[#feb415] font-semibold text-sm mt-2">
+                {userOrders.length} orden{userOrders.length !== 1 ? "es" : ""}
+              </p>
+            )}
+          </button>
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <Heart className="text-[#feb415] mb-4" size={32} />

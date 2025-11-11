@@ -23,7 +23,7 @@ export default function ProductGrid({ products, onProductClick, favorites, user 
           <div className="relative h-48 rounded-t-lg overflow-hidden">
             <Image
               src={product.image || "/placeholder.svg?height=300&width=300"}
-              alt={product.title}
+              alt={product.name}
               fill
               className="object-cover"
             />
@@ -47,7 +47,7 @@ export default function ProductGrid({ products, onProductClick, favorites, user 
             )}
           </div>
           <div className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">{product.title}</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">{product.name}</h3>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl font-bold text-[#feb415]">${product.price.toLocaleString()}</span>
               {product.originalPrice && (
@@ -55,7 +55,7 @@ export default function ProductGrid({ products, onProductClick, favorites, user 
               )}
             </div>
             <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-              <span>{product.sellerName}</span>
+              <span>{product.sellerName || "Vendedor"}</span>
               <span className="flex items-center gap-1">⭐ {product.rating || 4.5}</span>
             </div>
           </div>

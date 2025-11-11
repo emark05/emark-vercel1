@@ -14,6 +14,7 @@ export default function FeaturedCarousel({ products, onProductClick }: FeaturedC
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
+    if (products.length === 0) return
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % products.length)
     }, 5000)
@@ -40,13 +41,13 @@ export default function FeaturedCarousel({ products, onProductClick }: FeaturedC
             <div className="relative w-1/2 h-80 rounded-lg overflow-hidden">
               <Image
                 src={currentProduct.image || "/placeholder.svg?height=400&width=400"}
-                alt={currentProduct.title}
+                alt={currentProduct.name}
                 fill
                 className="object-cover"
               />
             </div>
             <div className="w-1/2 text-white">
-              <h2 className="text-4xl font-bold mb-4">{currentProduct.title}</h2>
+              <h2 className="text-4xl font-bold mb-4">{currentProduct.name}</h2>
               <p className="text-xl mb-6">{currentProduct.description}</p>
               <div className="text-3xl font-bold mb-4">${currentProduct.price.toLocaleString()}</div>
               <button className="bg-white text-[#feb415] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
